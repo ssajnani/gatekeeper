@@ -103,9 +103,9 @@ app.get('/authenticate/:code', function(req, res) {
   });
 });
 
-app.get('/authenticatehello/:code', function(req, res) {
-  log('authenticating code:', req.params.code, true);
-  authenticate(req.params.code, function(err, token) {
+app.get('/authenticate', function(req, res) {
+  log('authenticating code:', req.query.code, true);
+  authenticate(req.query.code, function(err, token) {
     var result
     if ( err || !token ) {
       result = {"error": err || "bad_code"};
