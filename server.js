@@ -103,6 +103,21 @@ app.get('/authenticate/:code', function(req, res) {
   });
 });
 
+app.get('/authenticate?code=:code', function(req, res) {
+  log('authenticating code:', req.params.code, true);
+  authenticate(req.params.code, function(err, token) {
+    var result
+    if ( err || !token ) {
+      result = {"error": err || "bad_code"};
+      log(result.error);
+    } else {
+      result = {"token": token};
+      log("token", result.token, true);
+    }
+    res.json(result);
+  });
+});
+
 var port = process.env.PORT || config.port || 9999;
 
 app.listen(port, null, function (err) {
