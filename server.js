@@ -64,7 +64,8 @@ function authenticateDropbox(code, cb) {
   });
 
   var reqOptions = {
-    host: config.dropbox_oauth_client_id + ":" + config.dropbox_oauth_client_secret + "@" + config.dropbox_oauth_host,
+    auth: config.dropbox_oauth_client_id + ":" + config.dropbox_oauth_client_secret,
+    host: config.dropbox_oauth_host,
     port: config.dropbox_oauth_port,
     path: config.dropbox_oauth_path,
     method: config.dropbox_oauth_method,
