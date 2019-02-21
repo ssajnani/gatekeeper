@@ -4,7 +4,7 @@
   "github_oauth_host": "github.com",
   "github_oauth_port": 443,
   "github_oauth_path": "/login/oauth/access_token",
-  "github_oauth_method": "POST"
+  "github_oauth_method": "POST",
   "dropbox_oauth_client_id": "DROPBOX_APPLICATION_CLIENT_ID",
   "dropbox_oauth_client_secret": "DROPBOX_APPLICATION_CLIENT_SECRET",
   "dropbox_oauth_host": "api.dropboxapi.com",
