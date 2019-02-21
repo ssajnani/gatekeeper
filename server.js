@@ -78,6 +78,7 @@ function authenticateDropbox(code, cb) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) { body += chunk; });
     res.on('end', function() {
+        log(qs.parse(body));
       cb(null, qs.parse(body).access_token);
     });
   });
@@ -121,6 +122,7 @@ app.all('*', function (req, res, next) {
 app.get('/github/authenticate/:code', function(req, res) {
   log('authenticating code:', req.params.code, true);
   authenticateGithub(req.params.code, function(err, token) {
+    log(token);
     var result
     if ( err || !token ) {
       result = {"error": err || "bad_code"};
