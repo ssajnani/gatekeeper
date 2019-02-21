@@ -59,8 +59,8 @@ function authenticateGithub(code, cb) {
 
 function authenticateDropbox(code, cb) {
   var data = qs.stringify({
-    code: code,
-    grant_type: "authorization_code"
+      grant_type: "authorization_code",
+      code: code
   });
 
   var reqOptions = {
