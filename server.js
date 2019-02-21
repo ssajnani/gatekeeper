@@ -61,6 +61,7 @@ function authenticateDropbox(code, cb) {
   var data = qs.stringify({
     client_id: config.dropbox_oauth_client_id,
     client_secret: config.dropbox_oauth_client_secret,
+    grant_type: "authentication_code",
     code: code
   });
 
