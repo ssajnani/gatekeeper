@@ -59,13 +59,12 @@ function authenticateGithub(code, cb) {
 
 function authenticateDropbox(code, cb) {
   var data = qs.stringify({
-    client_id: config.dropbox_oauth_client_id,
-    client_secret: config.dropbox_oauth_client_secret,
-    code: code
+    code: code,
+    grant_type: "authorization_code"
   });
 
   var reqOptions = {
-    host: config.dropbox_oauth_host,
+    host: config.dropbox_oauth_client_id + ":" + config.dropbox_oauth_client_secret + "@" + config.dropbox_oauth_host,
     port: config.dropbox_oauth_port,
     path: config.dropbox_oauth_path,
     method: config.dropbox_oauth_method,
