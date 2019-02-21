@@ -72,6 +72,9 @@ function authenticateDropbox(code, cb) {
     method: config.dropbox_oauth_method,
     headers: { 'content-length': data.length }
   };
+    
+  log(data);
+  log(reqOptions);
 
   var body = "";
   var req = https.request(reqOptions, function(res) {
