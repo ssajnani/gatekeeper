@@ -67,7 +67,7 @@ function authenticateDropbox(code, cb) {
     auth: config.dropbox_oauth_client_id + ":" + config.dropbox_oauth_client_secret,
     host: config.dropbox_oauth_host,
     port: config.dropbox_oauth_port,
-    path: config.dropbox_oauth_path,
+    path: config.dropbox_oauth_path + "?" + data,
     method: config.dropbox_oauth_method,
     headers: { 'content-length': data.length }
   };
@@ -85,7 +85,6 @@ function authenticateDropbox(code, cb) {
     });
   });
 
-  req.write(data);
   req.end();
   req.on('error', function(e) { cb(e.message); });
 }
