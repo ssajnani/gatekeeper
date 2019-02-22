@@ -80,7 +80,7 @@ function authenticateDropbox(code, cb) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) { body += chunk; });
     res.on('end', function() {
-        log(qs.parse(body));
+        log(body);
       cb(null, qs.parse(body).access_token);
     });
   });
