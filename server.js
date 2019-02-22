@@ -59,8 +59,8 @@ function authenticateGithub(code, cb) {
 
 function authenticateDropbox(code, cb) {
   var data = qs.stringify({
-      'grant_type': "authorization_code",
-      'code': code
+      grant_type: "authorization_code",
+      code: code
   });
 
   var reqOptions = {
@@ -69,7 +69,7 @@ function authenticateDropbox(code, cb) {
     port: config.dropbox_oauth_port,
     path: config.dropbox_oauth_path,
     method: config.dropbox_oauth_method,
-    headers: { 'content-length': data.length }
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'content-length': data.length }
   };
     
   log(data);
