@@ -59,15 +59,15 @@ function authenticateGithub(code, cb) {
 
 function authenticateDropbox(code, cb) {
   var data = qs.stringify({
-      grant_type: "authorization_code",
-      code: code
+      'grant_type': "authorization_code",
+      'code': code
   });
 
   var reqOptions = {
     auth: config.dropbox_oauth_client_id + ":" + config.dropbox_oauth_client_secret,
     host: config.dropbox_oauth_host,
     port: config.dropbox_oauth_port,
-    path: config.dropbox_oauth_path + "?" + data,
+    path: config.dropbox_oauth_path,
     method: config.dropbox_oauth_method,
     headers: { 'content-length': data.length }
   };
@@ -85,6 +85,7 @@ function authenticateDropbox(code, cb) {
     });
   });
 
+  req.write(data);
   req.end();
   req.on('error', function(e) { cb(e.message); });
 }
