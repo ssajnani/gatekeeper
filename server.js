@@ -72,7 +72,7 @@ function authenticateSpotify(cb) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) { body += chunk; });
     res.on('end', function() {
-      cb(null, qs.parse(body));
+      cb(null, JSON.parse(body));
     });
   });
   req.write(data);
