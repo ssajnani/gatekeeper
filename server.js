@@ -57,6 +57,29 @@ function authenticateGithub(code, cb) {
   req.on('error', function(e) { cb(e.message); });
 }
 
+function authenticateSpotify(cb) {
+
+  var reqOptions = {
+    host: config.spotify_oauth_host,
+    path: config.spotify_oauth_path,
+    method: config.spotify_oauth_method,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': btoa(config.spotify_oauth_client_id+":"+config.spotify_oauth_client_secret }
+  };
+
+  var body = "grant_type=client_credentials";
+  var req = https.request(reqOptions, function(res) {
+    res.setEncoding('utf8');
+    res.on('data', function (chunk) { body += chunk; });
+    res.on('end', function() {
+      cb(null, qs.parse(body));
+    });
+  });
+
+  req.write(data);
+  req.end();
+  req.on('error', function(e) { cb(e.message); });
+}
+
 function authenticateDropbox(code, cb) {
   var data = qs.stringify({
       grant_type: "authorization_code",
@@ -143,6 +166,20 @@ app.get('/github/authenticate', function(req, res) {
     } else {
       result = {"token": token};
       log("token", result.token, true);
+    }
+    res.json(result);
+  });
+});
+
+
+app.get('/spotify/authenticate', function(req, res) {
+  authenticateSpotify(function(err, token) {
+    var result
+    if ( err || !token ) {
+      result = {"error": err || "bad_code"};
+      log(result.error);
+    } else {
+      result = token;
     }
     res.json(result);
   });
