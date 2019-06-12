@@ -61,12 +61,13 @@ function authenticateSpotify(cb) {
 
   var reqOptions = {
     host: config.spotify_oauth_host,
+    port: 443,
     path: config.spotify_oauth_path,
     method: config.spotify_oauth_method,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': btoa(config.spotify_oauth_client_id+":"+config.spotify_oauth_client_secret }
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Basic ' +Buffer.from(config.spotify_oauth_client_id+":"+config.spotify_oauth_client_secret, 'binary').toString('base64') },
   };
-
-  var body = "grant_type=client_credentials";
+  var data = "grant_type=client_credentials";
+  var body = "";
   var req = https.request(reqOptions, function(res) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) { body += chunk; });
@@ -74,7 +75,6 @@ function authenticateSpotify(cb) {
       cb(null, qs.parse(body));
     });
   });
-
   req.write(data);
   req.end();
   req.on('error', function(e) { cb(e.message); });
