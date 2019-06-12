@@ -10,5 +10,10 @@
   "dropbox_oauth_host": "api.dropboxapi.com",
   "dropbox_oauth_port": 443,
   "dropbox_oauth_path": "/oauth2/token",
-  "dropbox_oauth_method": "POST"
+  "dropbox_oauth_method": "POST",
+  "spotify_oauth_client_id": "SPOTIFY_APPLICATION_CLIENT_ID",
+  "spotify_oauth_client_secret": "SPOTIFY_APPLICATION_CLIENT_SECRET",
+  "spotify_oauth_host": "https://accounts.spotify.com",
+  "spotify_oauth_path": "/api/token",
+  "spotify_oauth_method": "POST"
 }
