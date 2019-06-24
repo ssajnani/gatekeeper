@@ -259,6 +259,17 @@ function toDataUrl(url, callback) {
 // });
 
 exports.getInfo = function(spotify_info, callback){
+    gathered_info = {
+        "projects": [],
+        "education": [],
+        "research_description": [],
+        "research": [],
+        "resume": [],
+        "itVideos": [],
+        "tweets": [],
+        "instagram_pics": [],
+        "spotify_playlists": []
+    }
     var count = 0;
     gatherProjects(function(){
         count++;
