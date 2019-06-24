@@ -41,8 +41,7 @@ setInterval(function(){
       facts = info;
     })
   })
-  
-}, 90000)
+}, 120000)
 
 function gather_facts(cb){
   cb(facts);

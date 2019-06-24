@@ -63,7 +63,7 @@ function gatherEducationMilestones(callback){
 // var hobbyTitles = ['Twitter', 'Photography', 'Dance', 'Music', 'Blog'];
 
 function gatherResearchPapers(callback){
-    http.get({host: 'api.github.com', path: '/repos/ssajnani/ResearchPapers/contents/', headers: {'Authorization': 'Basic ' + Buffer.from('ssajnani:9aa04647e693fb85e8e5d517015a8dff0f46cce1').toString('base64'), 'User-Agent': 'node.js'}}, function(res){
+    http.get({host: 'api.github.com', path: '/repos/ssajnani/ResearchPapers/contents/', headers: {'User-Agent': 'node.js'}}, function(res){
         var data = '';
 
         res.on('data', function(chunk){
@@ -150,56 +150,57 @@ var MyRequestsCompleted = (function() {
 })();
 
 function gatherMusic(spotify_info, callback){
-        http.get({
-            host: 'api.spotify.com', path: '/v1/users/samar.sajnani/playlists',
-            headers: {
-                'Authorization': "Bearer " + spotify_info.access_token
-            },
-            contentType: 'application/json; charset=utf-8'},
-            function (res) {
-                var data = '';
+        // http.get({
+        //     host: 'api.spotify.com', path: '/v1/users/samar.sajnani/playlists',
+        //     headers: {
+        //         'Authorization': "Bearer " + spotify_info.access_token
+        //     },
+        //     contentType: 'application/json; charset=utf-8'},
+        //     function (res) {
+        //         var data = '';
 
-                res.on('data', function(chunk){
-                    data += chunk;
-                });
+        //         res.on('data', function(chunk){
+        //             data += chunk;
+        //         });
 
-                res.on('end', function(){
-                    data = JSON.parse(data);
-                    gathered_info.spotify_playlists = data.items;
-                    var spot_length = gathered_info.spotify_playlists.length;
-                    var requestCallback = new MyRequestsCompleted({
-                        numRequest: 4,
-                        singleCallback: function(){
-                            return callback();
-                        }
-                    });
+        //         res.on('end', function(){
+        //             data = JSON.parse(data);
+        //             gathered_info.spotify_playlists = data.items;
+        //             var spot_length = gathered_info.spotify_playlists.length;
+        //             var requestCallback = new MyRequestsCompleted({
+        //                 numRequest: 4,
+        //                 singleCallback: function(){
+        //                     return callback();
+        //                 }
+        //             });
                     
-                    for (var i = 0; i < spot_length; i++){
-                        (function(i){
-                            http.get({
-                                host: "api.spotify.com",
-                                path: "/v1/playlists/" + gathered_info.spotify_playlists[i].id + '/tracks',
-                                headers: {
-                                    'Authorization': "Bearer " + spotify_info.access_token
-                                },
-                                contentType: 'application/json; charset=utf-8'},
-                                function (res) {
-                                    var data = '';
+        //             for (var i = 0; i < spot_length; i++){
+        //                 (function(i){
+        //                     http.get({
+        //                         host: "api.spotify.com",
+        //                         path: "/v1/playlists/" + gathered_info.spotify_playlists[i].id + '/tracks',
+        //                         headers: {
+        //                             'Authorization': "Bearer " + spotify_info.access_token
+        //                         },
+        //                         contentType: 'application/json; charset=utf-8'},
+        //                         function (res) {
+        //                             var data = '';
 
-                                    res.on('data', function(chunk){
-                                        data += chunk;
-                                    });
+        //                             res.on('data', function(chunk){
+        //                                 data += chunk;
+        //                             });
 
-                                    res.on('end', function(){
-                                        data = JSON.parse(data);
-                                        gathered_info.spotify_playlists[i]['track_info'] = data;
-                                        requestCallback.requestComplete(true);
-                                    })
-                                });
-                        })(i);
-                    }
-                });
-            });
+        //                             res.on('end', function(){
+        //                                 data = JSON.parse(data);
+        //                                 gathered_info.spotify_playlists[i]['track_info'] = data;
+        //                                 requestCallback.requestComplete(true);
+        //                             })
+        //                         });
+        //                 })(i);
+        //             }
+        //         });
+        //     });
+        return '';
 }
 
 function ig_media_preview(base64data) {
