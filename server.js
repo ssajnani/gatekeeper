@@ -32,6 +32,7 @@ var facts = {};
 authenticateSpotify(function(error, result){
   gatherFacts.getInfo(result, function(info){
     facts = info;
+    console.log(facts);
   })
 })
 

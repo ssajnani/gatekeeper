@@ -72,7 +72,6 @@ function gatherResearchPapers(callback){
 
         res.on('end', function(){
             data = JSON.parse(data);
-            console.log(data);
             gathered_info.research = data.filter(function(item){
                 if (item.name != "readme.json"){
                     return item;
@@ -150,57 +149,56 @@ var MyRequestsCompleted = (function() {
 })();
 
 function gatherMusic(spotify_info, callback){
-        // http.get({
-        //     host: 'api.spotify.com', path: '/v1/users/samar.sajnani/playlists',
-        //     headers: {
-        //         'Authorization': "Bearer " + spotify_info.access_token
-        //     },
-        //     contentType: 'application/json; charset=utf-8'},
-        //     function (res) {
-        //         var data = '';
+        http.get({
+            host: 'api.spotify.com', path: '/v1/users/samar.sajnani/playlists',
+            headers: {
+                'Authorization': "Bearer " + spotify_info.access_token
+            },
+            contentType: 'application/json; charset=utf-8'},
+            function (res) {
+                var data = '';
 
-        //         res.on('data', function(chunk){
-        //             data += chunk;
-        //         });
+                res.on('data', function(chunk){
+                    data += chunk;
+                });
 
-        //         res.on('end', function(){
-        //             data = JSON.parse(data);
-        //             gathered_info.spotify_playlists = data.items;
-        //             var spot_length = gathered_info.spotify_playlists.length;
-        //             var requestCallback = new MyRequestsCompleted({
-        //                 numRequest: 4,
-        //                 singleCallback: function(){
-        //                     return callback();
-        //                 }
-        //             });
+                res.on('end', function(){
+                    data = JSON.parse(data);
+                    gathered_info.spotify_playlists = data.items;
+                    var spot_length = gathered_info.spotify_playlists.length;
+                    var requestCallback = new MyRequestsCompleted({
+                        numRequest: 4,
+                        singleCallback: function(){
+                            return callback();
+                        }
+                    });
                     
-        //             for (var i = 0; i < spot_length; i++){
-        //                 (function(i){
-        //                     http.get({
-        //                         host: "api.spotify.com",
-        //                         path: "/v1/playlists/" + gathered_info.spotify_playlists[i].id + '/tracks',
-        //                         headers: {
-        //                             'Authorization': "Bearer " + spotify_info.access_token
-        //                         },
-        //                         contentType: 'application/json; charset=utf-8'},
-        //                         function (res) {
-        //                             var data = '';
+                    for (var i = 0; i < spot_length; i++){
+                        (function(i){
+                            http.get({
+                                host: "api.spotify.com",
+                                path: "/v1/playlists/" + gathered_info.spotify_playlists[i].id + '/tracks',
+                                headers: {
+                                    'Authorization': "Bearer " + spotify_info.access_token
+                                },
+                                contentType: 'application/json; charset=utf-8'},
+                                function (res) {
+                                    var data = '';
 
-        //                             res.on('data', function(chunk){
-        //                                 data += chunk;
-        //                             });
+                                    res.on('data', function(chunk){
+                                        data += chunk;
+                                    });
 
-        //                             res.on('end', function(){
-        //                                 data = JSON.parse(data);
-        //                                 gathered_info.spotify_playlists[i]['track_info'] = data;
-        //                                 requestCallback.requestComplete(true);
-        //                             })
-        //                         });
-        //                 })(i);
-        //             }
-        //         });
-        //     });
-        return '';
+                                    res.on('end', function(){
+                                        data = JSON.parse(data);
+                                        gathered_info.spotify_playlists[i]['track_info'] = data;
+                                        requestCallback.requestComplete(true);
+                                    })
+                                });
+                        })(i);
+                    }
+                });
+            });
 }
 
 function ig_media_preview(base64data) {
@@ -247,30 +245,35 @@ exports.getInfo = function(spotify_info, callback){
     var count = 0;
     gatherProjects(function(){
         count++;
+        console.log('projects');
         if (count == 7){
             return callback(gathered_info);
         }
     });
     gatherEducationMilestones(function(){
         count++;
+        console.log('education');
         if (count == 7){
             return callback(gathered_info);
         }
     });
     gatherResearchPapers(function(){
         count++;
+        console.log('research');
         if (count == 7){
             return callback(gathered_info);
         }
     });
     gatherITVideoInfo(function(){
         count++;
+        console.log('youtube');
         if (count == 7){
             return callback(gathered_info);
         }
     });
     getResume(function(){
         count++;
+        console.log('resume');
         if (count == 7){
             return callback(gathered_info);
         }
@@ -278,12 +281,14 @@ exports.getInfo = function(spotify_info, callback){
 
     getInstagramInfo(function(){
         count++;
+        console.log('instagram');
         if (count == 7){
             return callback(gathered_info);
         }
     });
     gatherMusic(spotify_info, function(){
         count++;
+        console.log('spotify');
         if (count == 7){
             return callback(gathered_info);
         }
