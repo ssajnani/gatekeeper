@@ -1,16 +1,17 @@
+var url     = require('url'),
+    http    = require('http'),
+    https   = require('https'),
+    fs      = require('fs'),
+    qs      = require('querystring'),
+    express = require('express'),
+    app     = express();
 var workTitles = ['Projects', 'Education', 'Research', 'Youtube', 'Resume'];
 var hobbyTitles = ['Twitter', 'Photography', 'Dance', 'Music', 'Blog'];
 
 function loadConfig() {
     var config = JSON.parse(fs.readFileSync(__dirname+ '/config.json', 'utf-8'));
-    log('Configuration');
     for (var i in config) {
       config[i] = process.env[i.toUpperCase()] || config[i];
-      if (i === 'oauth_client_id' || i === 'oauth_client_secret') {
-        log(i + ':', config[i], true);
-      } else {
-        log(i + ':', config[i]);
-      }
     }
     return config;
   }
