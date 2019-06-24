@@ -1,6 +1,21 @@
 var workTitles = ['Projects', 'Education', 'Research', 'Youtube', 'Resume'];
 var hobbyTitles = ['Twitter', 'Photography', 'Dance', 'Music', 'Blog'];
 
+function loadConfig() {
+    var config = JSON.parse(fs.readFileSync(__dirname+ '/config.json', 'utf-8'));
+    log('Configuration');
+    for (var i in config) {
+      config[i] = process.env[i.toUpperCase()] || config[i];
+      if (i === 'oauth_client_id' || i === 'oauth_client_secret') {
+        log(i + ':', config[i], true);
+      } else {
+        log(i + ':', config[i]);
+      }
+    }
+    return config;
+  }
+var config = loadConfig();  
+
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var getJSON = require('get-json');
 var http = require('https');
@@ -10,7 +25,7 @@ var GITHUB_RESUME_JSON = "https://raw.githubusercontent.com/ssajnani/ssajnani.gi
 var GITHUB_RESEARCH = "https://api.github.com/repos/ssajnani/ResearchPapers/contents/";
 var GITHUB_RESEARCH_INFO = "https://raw.githubusercontent.com/ssajnani/ResearchPapers/master/readme.json";
 var YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?";
-var YOUTUBE_KEY = "key=AIzaSyBQGbkPx4FmwCAf_0vfGL4Mf3bZ2R2O1C4";
+var YOUTUBE_KEY = "key=" + config.youtube_api_key;
 var YOUTUBE_CHANNEL_ID = "channelId=UCquU_YuZYEk-sMMyHPTBd0A";
 var YOUTUBE_OPTIONS = "part=snippet,id&order=date&maxResults=20";
 var INSTAGRAM = "https://www.instagram.com/samarsajnani/?__a=1";
@@ -88,6 +103,7 @@ function gatherResearchPapers(callback){
 
 function gatherITVideoInfo(callback){
     getJSON(YOUTUBE_API+"&"+YOUTUBE_KEY+"&"+YOUTUBE_CHANNEL_ID+"&"+YOUTUBE_OPTIONS, function(error, data){
+        console.log(error);
         var result_arr = data.items;
         result_arr.pop();
         gathered_info.itVideos = result_arr;
