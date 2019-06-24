@@ -28,8 +28,13 @@ function loadConfig() {
 }
 
 var config = loadConfig();
-
 var facts = {};
+authenticateSpotify(function(error, result){
+  gatherFacts.getInfo(result, function(info){
+    facts = info;
+  })
+})
+
 setInterval(function(){
   authenticateSpotify(function(error, result){
     gatherFacts.getInfo(result, function(info){
