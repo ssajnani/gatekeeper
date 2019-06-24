@@ -4,7 +4,8 @@ var url     = require('url'),
     fs      = require('fs'),
     qs      = require('querystring'),
     express = require('express'),
-    app     = express();
+    app     = express(),
+    gatherFacts = require('./gather_facts');
 
 var TRUNCATE_THRESHOLD = 10,
     REVEALED_CHARS = 3,
@@ -27,6 +28,20 @@ function loadConfig() {
 }
 
 var config = loadConfig();
+
+var facts = {};
+setInterval(function(){
+  authenticateSpotify(function(error, result){
+    gatherFacts.getInfo(result, function(info){
+      facts = info;
+    })
+  })
+  
+}, 90000)
+
+function gather_facts(cb){
+  cb(facts);
+}
 
 function authenticateGithub(code, cb) {
   var data = qs.stringify({
@@ -58,7 +73,7 @@ function authenticateGithub(code, cb) {
 }
 
 function authenticateSpotify(cb) {
-
+  console.log(config);
   var reqOptions = {
     host: config.spotify_oauth_host,
     port: 443,
@@ -185,6 +200,12 @@ app.get('/spotify/authenticate', function(req, res) {
   });
 });
 
+app.get('/gatheredFacts', function(req, res) {
+  gather_facts(function(facts){
+    res.json(facts);
+  });
+});
+
 app.get('/dropbox/authenticate/:code', function(req, res) {
   log('authenticating code:', req.params.code, true);
   authenticateDropbox(req.params.code, function(err, token) {
@@ -220,3 +241,7 @@ var port = process.env.PORT || config.port || 9999;
 app.listen(port, null, function (err) {
   log('Gatekeeper, at your service: http://localhost:' + port);
 });
+
+
+
+
