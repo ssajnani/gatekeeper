@@ -129,6 +129,8 @@ function getResume(callback){
 
 function getInstagramInfo(callback){
     getJSON(INSTAGRAM, function(error, data) {
+        console.log("Instagram info");
+        console.log(data)
         var edges = data.data.user.edge_owner_to_timeline_media.edges;
         var picLength = edges.length;
         for (var i = 0; i < picLength; i++){
