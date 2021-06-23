@@ -136,8 +136,8 @@ function getInstagramInfo(callback){
     });
 
     res.on('end', function(){
-        var fbResponse = JSON.parse(body);
         console.log("Got a response: ", body);
+        var fbResponse = JSON.parse(body);
     });
 }).on('error', function(e){
       console.log("Got an error: ", e);
