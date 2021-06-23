@@ -18,6 +18,7 @@
   "dependencies": {
     "express": "~3.16.0",
     "get-json": "^1.0.1",
+    "request": "^2.88.2",
     "xmlhttprequest": "^1.8.0"
   },
   "engines": {

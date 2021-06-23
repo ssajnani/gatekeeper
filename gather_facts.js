@@ -4,7 +4,8 @@ var url     = require('url'),
     fs      = require('fs'),
     qs      = require('querystring'),
     express = require('express'),
-    app     = express();
+    app     = express(),
+    request = require("request");
 var workTitles = ['Projects', 'Education', 'Research', 'Youtube', 'Resume'];
 var hobbyTitles = ['Twitter', 'Photography', 'Dance', 'Music', 'Blog'];
 
@@ -29,7 +30,8 @@ var YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?";
 var YOUTUBE_KEY = "key=" + config.youtube_api_key;
 var YOUTUBE_CHANNEL_ID = "channelId=UCquU_YuZYEk-sMMyHPTBd0A";
 var YOUTUBE_OPTIONS = "part=snippet,id&order=date&maxResults=20";
-var INSTAGRAM = "https://www.instagram.com/graphql/query/?query_hash=472f257a40c653c64c666ce877d59d2b&variables={%22id%22:%22234498896%22,%22first%22:12,%22after%22:%22QVFDYTEtZ1FrUEJjSUwyY25qOFB3ZWUwUEVjdUZMSVNWMHFibG9OSWt0WER2VnNSYkxXMkFtVzZ4eXp0UllSTWFmNGFkNFgtZmh1eGRzS3N5aXptVlo2aw==%22}";
+var INSTAGRAM = 'https://www.instagram.com/graphql/query/?query_hash=472f257a40c653c64c666ce877d59d2b&variables={%22id%22:%22234498896%22,%22first%22:12,%22after%22:%22QVFDYTEtZ1FrUEJjSUwyY25qOFB3ZWUwUEVjdUZMSVNWMHFibG9OSWt0WER2VnNSYkxXMkFtVzZ4eXp0UllSTWFmNGFkNFgtZmh1eGRzS3N5aXptVlo2aw==%22}';
+//var INSTAGRAM = "https://www.instagram.com/samarsajnani/?__a=1";
 var RESUME_DETAILS = "";
 var SPOTIFY_ID_KEY = "2c31d0d4d1aa40849dd5ee49becbd6d1:c9f891d2e2604a129f016ede0e04bb35";
 var resume = "";
@@ -128,23 +130,11 @@ function getResume(callback){
 // }
 
 function getInstagramInfo(callback){
-  http.get(INSTAGRAM, function(res){
-    var body = '';
-
-    res.on('data', function(chunk){
-        body += chunk;
-    });
-
-    res.on('end', function(){
-        console.log("Got a response: ", body);
-        var fbResponse = JSON.parse(body);
-    });
-}).on('error', function(e){
-      console.log("Got an error: ", e);
-});
     getJSON(INSTAGRAM, function(error, data) {
         console.log("Instagram info");
+        console.log("data");
         console.log(data)
+        console.log("error");
         console.log(error)
         var edges = data.data.user.edge_owner_to_timeline_media.edges;
         var picLength = edges.length;
