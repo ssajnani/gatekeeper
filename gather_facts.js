@@ -128,6 +128,21 @@ function getResume(callback){
 // }
 
 function getInstagramInfo(callback){
+  http.get(INSTAGRAM, function(res){
+    var body = '';
+
+    res.on('data', function(chunk){
+        body += chunk;
+    });
+
+    res.on('end', function(){
+      console.log(body)
+        var fbResponse = JSON.parse(body);
+        console.log("Got a response: ", fbResponse.picture);
+    });
+}).on('error', function(e){
+      console.log("Got an error: ", e);
+});
     getJSON(INSTAGRAM, function(error, data) {
         console.log("Instagram info");
         console.log(data)
