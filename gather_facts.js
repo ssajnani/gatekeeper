@@ -138,7 +138,7 @@ function getInstagramInfo(callback){
         return callback();
      });
      **/
-    []
+  return callback();
 }
 
 var MyRequestsCompleted = (function() {
